@@ -2,13 +2,65 @@
   Survey Title:
   = @poll.title
 
-.questions-left
-  Questions Left:
-  %span
+.questions-block
 
-.question-block
+.navigation-block
+  %button.next NEXT
+.complete
+
+
+%script#question-general{type: 'text/x-jquery-tmpl'}
+  %input{id: "question_id", type: "hidden", value: "${$data.question.id}"}
+  %span.correct-answers
+    Correct Answers: ${$data.corret_answers_size}
+  %br
+  %span.question-size
+    Questions size: ${$data.size}
+  %br
+  %span.current-question
+    Current Question:  ${$data.question.order_number}
+  %br
+  %span.question-content
+    ${$data.question.content}
+
+  {{if $data.question.multiple_choice === true}}
+  .answer-multiple
+    {{tmpl($data.answers) "#question-multiple-answer" }}
+  {{else}}
+  .answer-single
+    {{tmpl($data.answers) "#question-single-answer"}}
+  {{/if}}
+
+%script#question-multiple-answer{type: 'text/x-jquery-tmpl'}
+  .answer-block
+    .title
+      ${$data.content}
+    .choice
+      %input{type: 'checkbox', value: "${$data.id}",name: "question[${$data.question_id}][answer][${$data.id}]", checked: false, id: "question_${$data.question_id}", class: "answer-data" }
+
+
+%script#question-single-answer{type: 'text/x-jquery-tmpl'}
+  .answer-block
+    .title
+      ${$data.content}
+    .choice
+      %input{type: 'radio', value: "${$data.id}",name: "question[${$data.question_id}][answer][0]", id: "question_${$data.question_id}", class: "answer-data" }
+%script#complete-block{type: 'text/x-jquery-tmpl'}
+  .complete-status
+    Poll status: ${$data.poll_status}
+  %span.question-size
+    Questions size: ${$data.size}
+  .row
+    %span.correct-answers
+      Correct Answers: ${$data.corret_answers_size}
+  .score  
+    Points: ${$data.corret_answers_size/$data.size * 100} % 
 
 :javascript
   new Polls({
-    pollId  : "#{params[:id]}"
+    pollId  : "#{params[:id]}",
+    questionGeneral: "#question-general",
+    nextButton: ".next",
+    questionsComplete: "#complete-block"
+
   })

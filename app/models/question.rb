@@ -5,12 +5,11 @@ class Question < ActiveRecord::Base
 	serialize :answered
 
 	scope :not_answered, -> { where(answered: nil) }
-	scope :correct_asnwer_size, -> { where(correct_answer: true) }
+	scope :correct_asnwers, -> { where(correct_answered: true) }
 
-	after_update :correct_answer
-
+	before_update :correct_answer
 
 	def correct_answer
-		correct_answer = true if answers.map {|a| a.id.to_s if a.correct == true}.compact == answered
+		self.correct_answered = true if answers.map {|a| a.id.to_s if a.correct == true}.compact == answered
 	end
 end

@@ -8,30 +8,28 @@ class PollsController < ApplicationController
 		respond_with @poll
 	end
 
-
 	def show
 		respond_with @poll
 	end
 
 	def question
-		@question = @poll.questions.not_answered.first
-		if @question.nil?
-			partial = 'no_questions_left'
+		question = @poll.questions.not_answered.first
+		
+		if question
+	    response = {
+	        question: question,
+	        answers: question.answers,
+	        size: @poll.questions.size,
+	        corret_answers_size: Question.all.correct_asnwers.size
+	    }		
 		else
-			partial = 'question'
-		end
-		respond_to do |format|
-			format.html { render partial: "polls/#{partial}", @question => :question if request.xhr? }
-		end
-	end
-
-	def question_size
-		size = @poll.questions.size
-		respond_with size
-	end
-
-	def correct_answers
-		@poll.answers.correct_asnwer_size.size
+			response = {
+				 poll_status: "complete",
+				 corret_answers_size: Question.all.correct_asnwers.size,
+				 size: @poll.questions.size
+	    }
+	  end
+	  respond_with response
 	end
 
 	def find_poll

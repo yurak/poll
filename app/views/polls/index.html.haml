@@ -1,1 +1,4 @@
 WELCOME
+.link
+	-Poll.find_each do |poll|
+		=link_to "poll", poll_path(poll)

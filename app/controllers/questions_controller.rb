@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-	 respond_to :json, :html
+	 respond_to :json
 
 	def update
 		@question = Question.find(params[:question_id])

@@ -1,48 +1,40 @@
 class window.Polls
   constructor: (options)->
-    @pollId   = options.pollId
+    @pollId           = options.pollId
+    @questionGeneral  = $(options.questionGeneral)
+    @nextButton       = $(options.nextButton)
+    @questionComplete = $(options.questionsComplete)
 
-    @questionSize = null
-    @currentQuestion = 1
+    @nextButton.click (e)=>
+      e.preventDefault()
+      @postQuestion()
 
     @getQuestions()
 
-    $(document).on 'question.size.handler.call', =>
-      @questionSizeHandler()
+  postQuestion: =>
+    $.ajax
+      url: "/questions/#{@questionId()}",
+      type: "PUT",
+      data: {
+        question_id: @questionId()
+        question_params: @prepareParams(), }
+    .done ()=>
+      @getQuestions()
 
-    $(document).on 'click', '.next', (e)=>
-      e.preventDefault()
-      $.ajax
-        url: "/questions/#{@questionId()}",
-        type: "PUT",
-        data: {
-          question_id: @questionId()
-          question_params: @prepareParams(), }
-      .done =>
-        @getQuestions().done ()-> $(document).trigger("question.size.handler.call")
+  getQuestions: ->
+    $.getJSON "/polls/#{@pollId}/question"
+    .done (data)=>
+      if data.poll_status == "complete"
+        $(".questions-block,.navigation-block").hide()
+        $('.complete').html(@questionComplete.tmpl(data))
+      else
+        $(".questions-block").html(@questionGeneral.tmpl(data))
 
   questionId: ->
     $("#question_id").val()
 
-  questionSizeHandler: ->
-    left = @questionSize - parseInt($(".current_question").text(), 10)
-    $(".questions-left").find("span").html(left)
-
-  getQeustionSize: ->
-    $.getJSON "/polls/#{@pollId}/question_size"
-    .done (data)=>
-      @questionSize = data
-      $(document).trigger("question.handler.call")
-
   prepareParams: ->
-    arr = []
-    $.each $(".answer-data:checked"), (index, item)->
+    _.reduce $(".answer-data:checked"), (arr, item)->
       arr.push($(item).val())
-    return arr
-
-
-  getQuestions: ->
-    $.ajax "/polls/#{@pollId}/question"
-    .done (data)=>
-      @getQeustionSize() if @questionSize == null
-      $(".question-block").html(data)
+      arr
+    , []
