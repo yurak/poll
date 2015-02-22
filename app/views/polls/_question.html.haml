@@ -1,0 +1,32 @@
+= hidden_field_tag 'question_id', @question.id, class: 'question_id'
+.corret-answers
+
+.question-number
+  Current Question №:
+  %span.current_question
+    = @question.order_number
+  -#= text_field_tag '', @question.order_number, readonly: true, disabled: true
+  %br
+  Title:
+  = @question.content
+
+  - if @question.multiple_choice
+    .answers-multiple
+      - @question.answers.each_with_index do |a, index|
+        .answer-block
+          .title
+            = a.content
+          .choice
+            = check_box_tag "question[#{@question.id}][answer][#{index}]", a.id, false, class: 'answer-data'
+  - else
+    .answers-block
+      - @question.answers.each do |a|
+        .answer-block
+          .title
+            = a.content
+          .choice
+            = radio_button_tag "question[#{@question.id}][answer]", a.id, false, class: 'answer-data'
+
+.navigation-block
+  -#= link_to "next", post_asnwer_question_path(question), class: 'next'
+  %button.next Next

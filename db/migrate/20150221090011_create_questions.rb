@@ -1,12 +1,12 @@
 class CreateQuestions < ActiveRecord::Migration
   def change
     create_table :questions do |t|
-    	t.string :title
-    	t.integer :correct_answer
-    	t.integer :number
+    	t.string  :content
+    	t.integer :order_number
     	t.boolean :multiple_choice, default: false
-    	t.string :correct_answer
+    	t.text  :answered
     	t.integer :poll_id
+			t.boolean :correct_answered, default: false
       t.timestamps null: false
     end
   end

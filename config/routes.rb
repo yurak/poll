@@ -14,11 +14,17 @@ Rails.application.routes.draw do
   #   resources :products
 
   # Example resource route with options:
-     resources :polls
+     resources :polls do
+       member do
+         get :question_size
+         get :question
+       end
+     end
 
      resources :questions do
       member do
         get :next
+        post :post_asnwer
       end
       resources :answers
      end

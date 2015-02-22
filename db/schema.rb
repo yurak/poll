@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(version: 20150221090537) do
 
   create_table "answers", force: :cascade do |t|
-    t.string   "title"
+    t.string   "content"
     t.boolean  "correct",     default: false
     t.integer  "question_id"
     t.datetime "created_at",                  null: false
@@ -29,13 +29,14 @@ ActiveRecord::Schema.define(version: 20150221090537) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "points"
-    t.integer  "number"
-    t.string   "correct_answer"
+    t.string   "content"
+    t.integer  "order_number"
+    t.boolean  "multiple_choice",  default: false
+    t.text     "answered"
     t.integer  "poll_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.boolean  "correct_answered", default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
 end

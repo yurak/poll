@@ -1,1 +1,14 @@
-show
+.title
+  Survey Title:
+  = @poll.title
+
+.questions-left
+  Questions Left:
+  %span
+
+.question-block
+
+:javascript
+  new Polls({
+    pollId  : "#{params[:id]}"
+  })
