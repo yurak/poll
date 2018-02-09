@@ -1,0 +1,21 @@
+number_1:
+  question: "The baby boy saw ... in the mirror and started to cry"
+  answers:
+    -  itself
+    -  herself
+  correct:
+    - himself
+number_2:
+  question: A lot of trains ... late today due to the heavy storms.?
+  answers:
+    - are run
+    - run
+  correct:
+    - are running
+number_3:
+  question: You ... clean your teeth twice a day to avoid having problems.
+  answers:
+    - can
+    - will
+  correct:
+    - Should

@@ -1,4 +1,5 @@
-WELCOME
+
+%h2 WELCOME
 .link
-	-Poll.find_each do |poll|
-		=link_to "poll", poll_path(poll)
+	- Poll.find_each do |poll|
+		= link_to "poll", poll_path(poll)

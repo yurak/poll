@@ -38,7 +38,6 @@
     .choice
       %input{type: 'checkbox', value: "${$data.id}",name: "question[${$data.question_id}][answer][${$data.id}]", checked: false, id: "question_${$data.question_id}", class: "answer-data" }
 
-
 %script#question-single-answer{type: 'text/x-jquery-tmpl'}
   .answer-block
     .title
@@ -53,8 +52,8 @@
   .row
     %span.correct-answers
       Correct Answers: ${$data.corret_answers_size}
-  .score  
-    Points: ${$data.corret_answers_size/$data.size * 100} % 
+  .score
+    Points: ${$data.corret_answers_size/$data.size * 100} %
 
 :javascript
   new Polls({
@@ -62,5 +61,4 @@
     questionGeneral: "#question-general",
     nextButton: ".next",
     questionsComplete: "#complete-block"
-
   })
